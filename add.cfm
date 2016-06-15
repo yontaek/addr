@@ -1,3 +1,4 @@
+Changing Directly on Master
 <cfset CurrentPage=GetFileFromPath(GetTemplatePath())>
 <cfif IsDefined("FORM.MM_InsertRecord") AND FORM.MM_InsertRecord EQ "add">
 
