@@ -1,7 +1,7 @@
+<!--- Changing Coldfusion --->
+
 <cfparam name="listid" default="0" type="Numeric">
-<cfif not IsDefined("categorynum")>
-<cfset categorynum = #session.categorynum#>
-</cfif>
+
 <cfquery name="rsList" datasource="addressbook">
 SELECT name, L.listid, Category      
 FROM CategoryLU CLU
