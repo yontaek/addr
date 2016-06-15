@@ -1,3 +1,5 @@
+<!--- Changing Coldfusion --->
+
 <cfparam name="listid" default="0" type="Numeric">
 <cfif not IsDefined("categorynum")>
 <cfset categorynum = #session.categorynum#>
