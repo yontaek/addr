@@ -1,8 +1,11 @@
 Changing Directly on Master
+Another Change MAde
+Staged, but not commited
+Making more change
 <cfset CurrentPage=GetFileFromPath(GetTemplatePath())>
 <cfif IsDefined("FORM.MM_InsertRecord") AND FORM.MM_InsertRecord EQ "add">
 
- <cfif not #FORM.name# IS "">  
+ <cfif not #FORM.name# IS "">
   <cfquery datasource="addressbook">
   INSERT INTO dbo.List (Name) VALUES (
   <cfif IsDefined("FORM.name") AND #FORM.name# NEQ "">
@@ -10,76 +13,76 @@ Changing Directly on Master
     <cfelse>
     NULL
   </cfif>
-  ) 
+  )
   </cfquery>
   </cfif>
 
 <cfquery name="rsName" datasource="addressbook">
-	SELECT dbo.List.ListID, dbo.List.Name FROM dbo.List WHERE dbo.List.Name = '#FORM.name#' 
+	SELECT dbo.List.ListID, dbo.List.Name FROM dbo.List WHERE dbo.List.Name = '#FORM.name#'
 </cfquery>
 <cfset Session.listid=#rsName.ListID#>
 
   <cfif not #FORM.phonenum# IS "">
   <cfquery datasource="addressbook">
-  INSERT INTO dbo.Phone (PhoneNum, TypeNum, PhoneNote, ListID) VALUES ( 
+  INSERT INTO dbo.Phone (PhoneNum, TypeNum, PhoneNote, ListID) VALUES (
     '#FORM.phonenum#', '#FORM.typenum#', '#FORM.phonenote#', #rsName.ListID#
-  ) 
+  )
   </cfquery>
   </cfif>
-  
-  <cfif not #FORM.email# IS "">  
+
+  <cfif not #FORM.email# IS "">
   <cfquery datasource="addressbook">
-  INSERT INTO dbo.Email (Email, ListID) VALUES ( 
+  INSERT INTO dbo.Email (Email, ListID) VALUES (
     '#FORM.email#', #rsName.ListID#
-  ) 
+  )
   </cfquery>
   </cfif>
 
-  <cfif not #FORM.address# IS "">    
+  <cfif not #FORM.address# IS "">
   <cfquery datasource="addressbook">
-  INSERT INTO dbo.Address (Address, ListID) VALUES ( 
+  INSERT INTO dbo.Address (Address, ListID) VALUES (
     '#FORM.address#', #rsName.ListID#
-  ) 
+  )
   </cfquery>
   </cfif>
 
-  <cfif not #FORM.url# IS "">    
+  <cfif not #FORM.url# IS "">
   <cfquery datasource="addressbook">
-  INSERT INTO dbo.URL (URL, ListID) VALUES ( 
+  INSERT INTO dbo.URL (URL, ListID) VALUES (
     '#FORM.url#', #rsName.ListID#
-  ) 
+  )
   </cfquery>
   </cfif>
 
-  <cfif not #FORM.note# IS "">  
+  <cfif not #FORM.note# IS "">
   <cfquery datasource="addressbook">
-  INSERT INTO dbo.Note (Note, ListID) VALUES ( 
+  INSERT INTO dbo.Note (Note, ListID) VALUES (
     '#FORM.note#', #rsName.ListID#
-  )   
-  </cfquery>   
+  )
+  </cfquery>
   </cfif>
 
-  <cfif not #FORM.categorynum# IS "">    
+  <cfif not #FORM.categorynum# IS "">
   <cfquery datasource="addressbook">
-  INSERT INTO dbo.Category (CategoryNum, ListID) VALUES ( 
-    '#FORM.categorynum#', #rsName.ListID# ) 
-  </cfquery>   
+  INSERT INTO dbo.Category (CategoryNum, ListID) VALUES (
+    '#FORM.categorynum#', #rsName.ListID# )
+  </cfquery>
   </cfif>
- <cflocation url="view.cfm">  
+ <cflocation url="view.cfm">
 </cfif>
 
- 
+
 <cfquery name="rsPhoneType" datasource="addressbook">
-SELECT * FROM dbo.PhoneType 
-ORDER BY 
+SELECT * FROM dbo.PhoneType
+ORDER BY
 CASE WHEN TypeNum = 3 THEN 0 ELSE TypeNum END ASC
 </cfquery>
 <cfquery name="rsBusiness" datasource="addressbook">
-SELECT * FROM dbo.CategoryLU, dbo.GroupingLU WHERE CategoryLU.GroupingNum = GroupingLU.GroupingNum 
+SELECT * FROM dbo.CategoryLU, dbo.GroupingLU WHERE CategoryLU.GroupingNum = GroupingLU.GroupingNum
 AND GroupingLU.GroupingNum = 1 ORDER BY dbo.CategoryLU.Category
 </cfquery>
 <cfquery name="rsPeople" datasource="addressbook">
-SELECT * FROM dbo.CategoryLU, dbo.GroupingLU WHERE CategoryLU.GroupingNum = GroupingLU.GroupingNum 
+SELECT * FROM dbo.CategoryLU, dbo.GroupingLU WHERE CategoryLU.GroupingNum = GroupingLU.GroupingNum
 AND GroupingLU.GroupingNum = 2 ORDER BY dbo.CategoryLU.Category
 </cfquery>
 <html>
@@ -108,10 +111,10 @@ var phonelen = phonenum.value.length;
 <p>&nbsp;</p>
 <table width="700" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td> 
+    <td>
       <form action="<cfoutput>#CurrentPage#</cfoutput>" method="POST" name="add" id="add">
         <table width="700" border="0" align="center" cellpadding="5" cellspacing="0">
-          <tr> 
+          <tr>
           <td width="93">&nbsp;</td>
           <td width="487" class="contenttitle">Add</td>
         </tr>
@@ -125,65 +128,65 @@ var phonelen = phonenum.value.length;
           <tr>
             <td width="69" class="bodybold">
               <div align="right">Phone</div></td>
-            <td width="16" class="bodybold">&nbsp;</td> 
-            <td width="614" class="bodytextsmall"> 
+            <td width="16" class="bodybold">&nbsp;</td>
+            <td width="614" class="bodytextsmall">
               <input name="phonenum" type="text" id="phonenum" size="20" value="520-">
-              , Type 
+              , Type
               <select name="typenum" id="typenum" onChange="addPhoneArea(this.value)";>
-                <cfoutput query="rsPhoneType"> 
+                <cfoutput query="rsPhoneType">
                   <option value="#rsPhoneType.TypeNum#">#rsPhoneType.PhoneType#</option>
                 </cfoutput> </select>
-              , Note 
+              , Note
               <input name="phonenote" type="text" id="phonenote" size="30"></td>
           </tr>
           <tr>
             <td class="bodybold">
               <div align="right">Email</div></td>
-            <td class="bodybold">&nbsp;</td> 
+            <td class="bodybold">&nbsp;</td>
             <td class="bodytextsmall"> <input name="email" type="text" id="email" size="50"></td>
           </tr>
           <tr>
             <td class="bodybold">
               <div align="right">Address</div></td>
-            <td class="bodybold">&nbsp;</td> 
+            <td class="bodybold">&nbsp;</td>
             <td class="bodytextsmall"> <textarea name="address" cols="70" rows="3" wrap="PHYSICAL" id="address"></textarea></td>
           </tr>
           <tr>
             <td class="bodybold">
               <div align="right">URL</div></td>
-            <td class="bodybold">&nbsp;</td> 
+            <td class="bodybold">&nbsp;</td>
             <td class="bodytextsmall"> <input name="url" type="text" id="url" size="100"></td>
           </tr>
           <tr>
             <td class="bodybold">
               <div align="right">Note</div></td>
-            <td class="bodybold">&nbsp;</td> 
+            <td class="bodybold">&nbsp;</td>
             <td class="bodytextsmall"> <textarea name="note" cols="100" rows="8" wrap="virtual" id="note"></textarea></td>
           </tr>
           <tr>
             <td class="bodybold">
               <div align="right">Category</div></td>
             <td class="bodybold">&nbsp;</td>
-            <td class="bodytextsmall"> 
+            <td class="bodytextsmall">
               <select name="categorynum" id="categorynum">
                 <option value="">Business Categories</option>
-                <cfoutput query="rsBusiness"> 
+                <cfoutput query="rsBusiness">
                   <option value="#rsBusiness.CategoryNum#">#rsBusiness.Category#</option>
-                </cfoutput> 
+                </cfoutput>
               </select>
-              or 
+              or
 				<select name="categorynum" id="categorynum">
 				  <option value="">People Categories</option>
-                <cfoutput query="rsPeople"> 
+                <cfoutput query="rsPeople">
                   <option value="#rsPeople.CategoryNum#">#rsPeople.Category#</option>
-                </cfoutput> 
+                </cfoutput>
               </select>
-			  <input type="hidden" name="categorynum_required" value="Category, Please!">										
+			  <input type="hidden" name="categorynum_required" value="Category, Please!">
 			</td>
           </tr>
           <tr>
             <td><div align="center"></div></td>
-            <td>&nbsp;</td> 
+            <td>&nbsp;</td>
             <td class="bodytextsmall"> <input type="submit" name="Submit" value="Submit"></td>
           </tr>
         </table>
