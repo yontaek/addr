@@ -1,3 +1,4 @@
+<!---Login information changed--->
 <cfquery name="rsLogin" datasource="addressbook">
 SELECT * FROM dbo."Admin" 
 </cfquery>
