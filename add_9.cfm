@@ -2,6 +2,7 @@ Changing Directly on Master
 Another Change MAde
 Staged, but not commited
 Making more change
+6/28/16, 5:12pm
 <cfset CurrentPage=GetFileFromPath(GetTemplatePath())>
 <cfif IsDefined("FORM.MM_InsertRecord") AND FORM.MM_InsertRecord EQ "add">
 
